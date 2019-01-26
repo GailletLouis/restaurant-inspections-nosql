@@ -14,7 +14,7 @@ sudo docker run \
 --name nosql-cqlsh \
 -it \
 --link nosql-cass:cassandra \
---mount source=nosql,target=nosql-data \
+--mount source=nosql,target=/nosql-data \
 --rm cassandra \
 cqlsh cassandra
 ```
