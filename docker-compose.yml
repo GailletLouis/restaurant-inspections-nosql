@@ -1,0 +1,11 @@
+version: '3'
+services:
+  nosql-cass:
+    image: cassandra:latest
+  nosql-cqlsh:
+    image: cqlsh
+    links:
+      - "nosql-cass:cassandra"
+    stdin_open: true
+    tty: true
+    
