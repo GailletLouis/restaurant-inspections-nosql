@@ -10,11 +10,11 @@ author:
 
 # Datamodel and Import
 
-**Script.cql**
-
 - We create a keyspace, we use it, then we create some types needed, then we create the table with the types. We chose a type instead of a map because we preferred to display only few attributes per query. Moreover we were focused on map in practical work 2 so when we had to choose between these 2 options we prefered to use type in order to improve our knowledge on Cassandra
 
-- Cassandra doesn't allow for loading JSON files, only CSV ones. We decided instead on loading a .cql file, where each line would be an INSERT statement, for each JSON element. This was done with the `./cassanda/json-cassandra.lisp` script. We also needed to change `$date` to `date1` in order for the data to be read by CQL. This was done in vim, with a `:%s/$date/date1/g` command.
+- Cassandra doesn't allow for loading JSON files, only CSV ones. We decided instead on loading a .cql file, where each line would be an INSERT statement, for each JSON element. This was done with the `./cassanda/json-cassandra.lisp` script. We also needed to change `$date` to `date1` in order for the data to be read by CQL. This was done in vim, with a `:%s/$date/date1/g** command.
+
+**Script.cql**
 
 ```SQL
 CREATE KEYSPACE IF NOT EXISTS restaurants_inspections
@@ -66,7 +66,7 @@ CREATE INDEX IF NOT EXISTS nameI ON restaurants(name);
 SELECT cuisine, borough FROM restaurants WHERE name = 'Kasumi';
 ```
 
-**adress except coordinates for a certain name restaurant**
+**Adress except coordinates for a certain name restaurant**
 
 ```SQL
 CREATE INDEX IF NOT EXISTS nameI ON restaurants(name);
@@ -85,15 +85,15 @@ SELECT grades from restaurants WHERE name='Kasumi';
 
 ```SQL
 CREATE INDEX IF NOT EXISTS boroughI ON restaurants(borough);
-select name, cuisine from restaurants where borough='Brooklyn' ALLOW FILTERING;
+SELECT name, cuisine FROM restaurants WHERE borough = 'Brooklyn';
 ```
 
 **Restaurant names and adresses from a certain cuisine type**
 
 ```SQL
-CREATE INDEX IF NOT EXISTS cusineI ON restaurants(cusisine);
-SELECT name, address.building, address.street, address.zipcode, borough FROM restaurants WHERE
-cuisine = 'Italian' ALLOW FILTERING ;
+CREATE INDEX IF NOT EXISTS cusineI ON restaurants(cuisine);
+SELECT name, address.building, address.street, address.zipcode,
+  borough FROM restaurants WHERE cuisine = 'Italian';
 ```
 
 
