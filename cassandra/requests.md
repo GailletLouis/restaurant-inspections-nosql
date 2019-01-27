@@ -57,7 +57,7 @@ SELECT cuisine, borough FROM restaurants WHERE name = 'Kasumi';
 **adress except coordinates for a certain name restaurant**
 ```SQL
 CREATE INDEX IF NOT EXISTS nameI ON restaurants(name);
-SELECT name, address.building, address.street, address.zipcode from restaurants
+SELECT name, address.building, address.street, address.zipcode, borough from restaurants
   WHERE name = 'Kasumi';
 ```
 
