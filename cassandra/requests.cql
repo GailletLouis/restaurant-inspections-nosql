@@ -10,4 +10,5 @@ CREATE INDEX boroughI ON restaurants(borough);
 SELECT name FROM restaurants WHERE cuisine = 'Japenese' AND borough = 'Brooklyn';
 
 -- restaurant name and cuisine for a certain restaurant name
-SELECT cuisine, borough FROM restaurants WHERE name = 'Kasumi' ALLOW FILTERING;
+CREATE INDEX nameI ON restaurants(name);
+SELECT cuisine, borough FROM restaurants WHERE name = 'Kasumi';
