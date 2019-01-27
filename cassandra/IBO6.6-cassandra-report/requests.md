@@ -8,6 +8,8 @@ author:
 - Nathan IMMACOLATO
 ---
 
+---
+
 # Datamodel and Import
 
 - We create a keyspace, we use it, then we create some types needed, then we create the table with the types. We chose a type instead of a map because we preferred to display only few attributes per query. Moreover we were focused on map in practical work 2 so when we had to choose between these 2 options we prefered to use type in order to improve our knowledge on Cassandra
@@ -35,6 +37,8 @@ CREATE TABLE IF NOT EXISTS restaurants(address frozen<address>,
   borough VARCHAR, cuisine VARCHAR, grades list<frozen<gradeType>>,
   name VARCHAR, restaurant_id VARCHAR, PRIMARY KEY (restaurant_id));
 ```
+
+---
 
 # Requests
 
@@ -105,6 +109,7 @@ CREATE INDEX IF NOT EXISTS cusineI ON restaurants(cuisine);
 SELECT name, grades FROM restaurants WHERE cuisine='Italian';
 ```
 
+---
 
 ## Medium request
 
@@ -153,6 +158,8 @@ CREATE AGGREGATE IF NOT EXISTS distribution_bakery ( VARCHAR )
 ```SQL
 SELECT distribution_bakery(cuisine) FROM restaurants;
 ```
+
+---
 
 ## Hard request
 
