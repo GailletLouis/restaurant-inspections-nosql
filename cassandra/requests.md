@@ -81,6 +81,22 @@ CREATE INDEX IF NOT EXISTS nameI ON restaurants(name);
 SELECT grades from restaurants WHERE name='Kasumi';
 ```
 
+**Restaurant names and cuisine type from a certain borough**
+
+```SQL
+CREATE INDEX IF NOT EXISTS boroughI ON restaurants(borough);
+select name, cuisine from restaurants where borough='Brooklyn' ALLOW FILTERING;
+```
+
+**Restaurant names and adresses from a certain cuisine type**
+
+```SQL
+CREATE INDEX IF NOT EXISTS cusineI ON restaurants(cusisine);
+SELECT name, address.building, address.street, address.zipcode, borough FROM restaurants WHERE
+cuisine = 'Italian' ALLOW FILTERING ;
+```
+
+
 ## Medium request
 
 **Gives a distribution of bakery restaurants.**
