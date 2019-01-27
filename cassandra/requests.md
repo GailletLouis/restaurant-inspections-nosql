@@ -96,6 +96,13 @@ SELECT name, address.building, address.street, address.zipcode,
   borough FROM restaurants WHERE cuisine = 'Italian';
 ```
 
+**Restaurant Name and Historic of grades for a certaine type of cuisine **
+
+```SQL
+CREATE INDEX IF NOT EXISTS cusineI ON restaurants(cuisine);
+SELECT name, grades FROM restaurants WHERE cuisine='Italian';  
+```
+
 
 ## Medium request
 
