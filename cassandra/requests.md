@@ -1,8 +1,6 @@
 ---
 title:
-- Requests for Cassandra
-subtitle:
-- Advanced Topics in NoSQL
+- Requests for Cassandra - Advanced Topics for NoSQL
 author:
 - Amine MILIANI
 - Louis GAILLET
