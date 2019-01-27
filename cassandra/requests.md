@@ -32,16 +32,21 @@ CREATE TABLE IF NOT EXISTS restaurants(address frozen<address>, borough VARCHAR,
 **Restaurant names for certain borough and cuisine**
 `SELECT name FROM restaurants WHERE cuisine = 'Japanese' AND borough = 'Brooklyn' ALLOW FILTERING;`
 - But allowing filtering can be unstable, so we prefer to index the attributes.
-`CREATE INDEX cusineI ON restaurants(cusisine);`
-`CREATE INDEX boroughI ON restaurants(borough);`
+`CREATE INDEX IF NOT EXISTS cusineI ON restaurants(cusisine);`
+`CREATE INDEX IF NOT EXISTS boroughI ON restaurants(borough);`
 `SELECT name FROM restaurants WHERE cuisine = 'Japenese' AND borough = 'Brooklyn';`
 
 **Restaurant name and cuisine for a certain restaurant name**
-`CREATE INDEX nameI ON restaurants(name);`
+`CREATE INDEX IF NOT EXISTS nameI ON restaurants(name);`
 `SELECT cuisine, borough FROM restaurants WHERE name = 'Kasumi';`
 
 **adress except coordinates for a certain name restaurant**
+`CREATE INDEX IF NOT EXISTS nameI ON restaurants(name);`
 `SELECT name, address.building, address.street, address.zipcode from restaurants WHERE name = 'Kasumi';`
+
+**Historic of grades for a certain name restaurant**
+`CREATE INDEX IF NOT EXISTS nameI ON restaurants(name);`
+'SELECT grades from restaurants WHERE name='Kasumi';'
 
 ## Medium request
 **Gives a distribution of bakery restaurants.**
