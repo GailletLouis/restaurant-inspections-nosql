@@ -91,6 +91,8 @@ db.restaurants.update({"borough":"Manhattan"}, {$set:{"grades.grade":"B"}});
 - **Displays the restaurants near the given position, which provide a French cusine, and all its grades are A**
 
 ```javascript
+db.restaurants.ensureIndex({"address.coord":"2dsphere"}); 
+
 db.restaurants.aggregate([
    {
      $geoNear: {
