@@ -15,7 +15,7 @@ author:
 - As for the work done on Cassandra, we decided to edit every line of the JSON data to make each its own individual insert.
 
 ```json
-"index":{"_index": "restaurants","_type":"restaurant","_id":1}}
+{"index":{"_index": "restaurants","_type":"restaurant","_id":1}}
 {"fields" :
   {"address": {"building": "1007",
     "coord":{"type":"Point", "coordinates" : [-73.856077, 40.848447]},
@@ -45,9 +45,45 @@ curl -XPUT localhost:9200/_bulk -H"Content-Type: application/json" \
 
 ## Easy requests
 
+**All restaurants in Brooklyn**
+
+```sh
+GET restaurants/_search {
+  "query": {
+    "match_phrase": {
+      "fields.borough":"Brooklyn"}}}
+```
+
+**All Italian restaurants in Brooklyn without Pizza cuisine (because there is a cuisine type named "Pizza/Italian", this query could be useful for the people who don't want to eat in Italian restaurant specialized in pizzas)**
+
+```sh
+GET restaurants/_search {
+  "query": {
+    "bool": {
+      "must": [{
+          "match_phrase": {
+            "fields.borough": "Brooklyn"}}, {
+          "match": {
+            "fields.cuisine": "Italian"}}],
+      "must_not" : {
+        "match" : {
+          "fields.cuisine":"Pizza"}}}}}
+```
+
 ---
 
 ## Medium requests
+
+**Count of all restaurants of each cuisines**
+
+```sh
+GET restaurants/_search {
+  "aggs" : {
+    "nb_per_category" : {
+      "terms" : {
+        "field" : "fields.cuisine.keyword"}}},
+  "size": 0}
+```
 
 ---
 
@@ -79,21 +115,12 @@ PUT /restaurants/_settings
             "Asian,Indian" ,"European,Mediterranean","European,Italian",
             "European,Irish","European,French","European,English",
             "European,Pizza","European,Spanish","European,Russian",
-            "European,Greek"
-          ]
-        }
-      },
+            "European,Greek"]}},
       "analyzer": {
         "my_synonyms": {
           "tokenizer": "standard",
           "filter": [
-            "my_synonym_filter" 
-          ]
-        }
-      }
-    }
-  }
-}
+            "my_synonym_filter"]}}}}}
 
 POST restaurants/_open
 
@@ -103,11 +130,7 @@ POST restaurants/_search
     "match" : {
       "fields.cuisine.keyword": {
         "query" : "Asian",
-        "analyzer": "my_synonyms"
-      }
-    }
-  }
-}
+        "analyzer": "my_synonyms"}}}}
 
 POST restaurants/_search
 {
@@ -115,9 +138,5 @@ POST restaurants/_search
     "match": {
       "fields.cuisine.keyword": {
         "query": "European",
-        "analyzer": "my_synonyms"
-      }
-    }
-  }
-}
+        "analyzer": "my_synonyms"}}}}
 ```
