@@ -40,3 +40,67 @@ curl -XPUT localhost:9200/_bulk -H"Content-Type: application/json" --data-binary
 ---
 
 ## Hard requests
+
+**Get all restaurants from a group of cuisines that we define**
+
+- We first close the database, to be able to change settings.
+
+- We then add in the settings some synonyms. We use the synonyms to group different cuisines together. So by giving "Asian" as a synonym of "Japanese" or "Korean", we can just search for "Asian" without having to specify "Japanese and Korean".
+
+- We reopen the database.
+
+- Then we have 2 examples of the actual request, which just searches for the group of cuisines we defined.
+
+```sh
+POST restaurants/_close
+
+PUT /restaurants/_settings
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "my_synonym_filter": {
+          "type": "synonym", 
+          "synonyms": [ 
+            "ave,avenue,av","street,st","road,rd","boulevard,blvd,bvd","Asian,Korean","Asian,Japanese","Asian,Chinese","Asian,Thai","Asian,Indian" ,"European,Mediterranean","European,Italian","European,Irish","European,French","European,English","European,Pizza","European,Spanish","European,Russian","European,Greek"
+          ]
+        }
+      },
+      "analyzer": {
+        "my_synonyms": {
+          "tokenizer": "standard",
+          "filter": [
+            "my_synonym_filter" 
+          ]
+        }
+      }
+    }
+  }
+}
+
+POST restaurants/_open
+
+POST restaurants/_search
+{
+  "query": {
+    "match" : {
+      "fields.cuisine.keyword": {
+        "query" : "Asian",
+        "analyzer": "my_synonyms"
+      }
+    }
+  }
+}
+
+POST restaurants/_search
+{
+  "query": {
+    "match": {
+      "fields.cuisine.keyword": {
+        "query": "European",
+        "analyzer": "my_synonyms"
+      }
+    }
+  }
+}
+```
